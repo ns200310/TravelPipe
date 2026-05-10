@@ -1,4 +1,4 @@
-ARG PYTHON_VERSION=3.9.6
+ARG PYTHON_VERSION=3.14
 FROM python:${PYTHON_VERSION}-slim as base
 
 # Prevents Python from writing pyc files.
@@ -29,4 +29,4 @@ COPY . .
 EXPOSE 8000
 
 # Run the application.
-CMD fastapi dev
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
