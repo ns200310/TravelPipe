@@ -14,13 +14,18 @@
     "@mantine/core": "^9.1.1",
     "@mantine/dates": "^9.1.1",
     "@mantine/hooks": "^9.1.1",
+    "@mapbox/polyline": "^1.2.1",
+    "@types/leaflet": "^1.9.21",
     "dayjs": "^1.11.20",
+    "leaflet": "^1.9.4",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
+    "react-leaflet": "^5.0.0",
     "recharts": "^3.8.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/mapbox__polyline": "^1.0.5",
     "@types/node": "^24.12.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

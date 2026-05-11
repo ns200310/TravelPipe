@@ -7,7 +7,11 @@ requires-python = ">=3.12"
 dependencies = [
     "celery>=5.6.3",
     "fastapi[standard]>=0.136.1",
+    "flower>=2.0",
     "httpx>=0.28.1",
+    "pyarrow>=18.0",
+    "pydantic>=2,<3",
     "python-dotenv>=1.2.2",
+    "redis>=5.0",
     "requests>=2.33.1",
 ]

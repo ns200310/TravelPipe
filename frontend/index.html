@@ -5,21 +5,22 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MBTA Operational BI Dashboard</title>
-
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('mantine-color-scheme-value');
+          var scheme = stored
+            ? JSON.parse(stored)
+            : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-mantine-color-scheme', scheme);
+        } catch (e) {}
+      })();
+    </script>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(226, 232, 240, 1);
-            box-shadow: 0 4px 12px -2px rgb(0 0 0 / 0.05);
-            transition: transform 0.2s ease;
-        }
-        .glass-card:hover { transform: translateY(-2px); }
-        .chart-container { position: relative; height: 280px; width: 100%; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--mantine-color-body);
+      }
     </style>
   </head>
   <body>
