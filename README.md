@@ -29,40 +29,39 @@ uv sync
 
 Copy `.env.example` to `.env` and adjust if needed.
 
-Start the four processes (separate terminals):
+### 1. Start infrastructure (Redis + Flower)
 
-1. **Redis broker**
+Both run via Docker Compose:
 
-   ```
-   redis-server
-   ```
+```
+docker compose up -d
+```
 
-   Or via Docker: `docker run --rm -p 6379:6379 redis:7`. Verify with `redis-cli ping`.
+This brings up:
 
-2. **Celery worker**
+- `redis` on `localhost:6379` (broker + result backend)
+- `flower` on <http://localhost:5555> (queue monitor)
 
-   ```
-   uv run celery -A controllers.celery_app worker --loglevel=info --concurrency=1 -Q parquet_writes
-   ```
+Stop with `docker compose down`. Add `-v` to also drop the redis volume.
 
-   On Windows, also pass `--pool=solo` (Celery's default prefork pool doesn't work on Windows):
+### 2. Celery worker (local process)
 
-   ```
-   uv run celery -A controllers.celery_app worker --loglevel=info --concurrency=1 --pool=solo -Q parquet_writes
-   ```
+```
+uv run celery -A controllers.celery_app worker --loglevel=info --concurrency=1 -Q parquet_writes
+```
 
-3. **Flower (queue monitor)**
+On Windows add `--pool=solo` (Celery's default prefork pool doesn't work on Windows):
 
-   ```
-   uv run celery -A controllers.celery_app flower --port=5555
-   ```
+```
+uv run celery -A controllers.celery_app worker --loglevel=info --concurrency=1 --pool=solo -Q parquet_writes
+```
 
-   Open <http://localhost:5555>.
+The worker runs locally (not in Docker) so it can write directly to `./data/*.parquet` on the host filesystem.
 
-4. **FastAPI app**
+### 3. FastAPI app
 
-   ```
-   uv run fastapi dev main.py
-   ```
+```
+uv run fastapi dev main.py
+```
 
-After ~30 seconds the worker should process `parquet.append_snapshot` and `parquet.append_vehicle_positions` tasks; Flower's **Tasks** tab shows them in real time and `data/*.parquet` grows.
+After ~30 seconds the worker processes `parquet.append_snapshot` and `parquet.append_vehicle_positions` tasks; Flower's **Tasks** tab shows them in real time and `data/*.parquet` grows.
